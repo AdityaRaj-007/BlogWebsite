@@ -1,5 +1,4 @@
 import { User } from "../models/userModel.js";
-import { createHmac } from "crypto";
 
 export const signupUser = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -20,9 +19,13 @@ export const signupUser = async (req, res) => {
 export const signinUser = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.matchPassword(email, password);
+  try {
+    const token = await User.matchPasswordAndGenerateToken(email, password);
 
-  console.log("User ", user);
+    console.log("Token ", token);
 
-  return res.redirect("/");
+    return res.cookie("token", token).redirect("/");
+  } catch (error) {
+    return res.render("signin", { error: "Incorrect Email or Password!!" });
+  }
 };

@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
-import { router as userRouter } from "./routes/userRouter.js";
 import "dotenv/config";
+import { router as userRouter } from "./routes/userRouter.js";
 import { connectDB } from "./services/db.js";
 
 const PORT = 8000;
