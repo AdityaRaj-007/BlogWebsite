@@ -30,11 +30,19 @@
       <pre class="mt-4"><%= blog.content %></pre>
 
       <div class="container mt-6">
-        <h1>Comments</h1>
+        <h1>Comments (<%= comments.length %>)</h1>
         <div class="container mt-4">
           <% comments.forEach(comment => { %>
-          <h5><%= comment.createdBy.fullName %></h5>
-          <p><%= comment.content %></p>
+          <div class="container mt-4 d-flex align-items-center">
+            <img
+              src="<%= comment.createdBy.profileImageURL %>"
+              alt=""
+              width="20px"
+              style="margin-right: 10px"
+            />
+            <h5><%= comment.createdBy.fullName %></h5>
+          </div>
+          <pre><%= comment.content %></pre>
           <% }) %>
         </div>
         <% if (locals.user) { %>
