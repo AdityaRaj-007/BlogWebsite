@@ -1,5 +1,9 @@
 import express from "express";
-import { signinUser, signupUser } from "../controllers/userController.js";
+import {
+  signinUser,
+  signupUser,
+  logoutUser,
+} from "../controllers/userController.js";
 
 export const router = express.Router();
 
@@ -14,3 +18,5 @@ router.get("/signup", (req, res) => {
 router.post("/signin", signinUser);
 
 router.post("/signup", signupUser);
+
+router.get("/logout", logoutUser);

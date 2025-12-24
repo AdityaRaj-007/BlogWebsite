@@ -29,3 +29,7 @@ export const signinUser = async (req, res) => {
     return res.render("signin", { error: "Incorrect Email or Password!!" });
   }
 };
+
+export const logoutUser = (req, res) => {
+  return res.clearCookie("token").redirect("/");
+};
