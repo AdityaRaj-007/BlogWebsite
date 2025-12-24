@@ -10,7 +10,7 @@ const blogSchema = new Schema(
       type: String,
       required: true,
     },
-    coverImaageURL: {
+    coverImageURL: {
       type: String,
     },
     createdBy: {

@@ -5,7 +5,29 @@
     <title>ThoughtStory</title>
   </head>
   <body>
-    <%- include('./partials/nav.ejs') %> <%= JSON.stringify(user) %>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container mt-3">
+      <div class="row row-col-4">
+        <% blogs.forEach(blog => { %>
+        <div class="col">
+          <div class="card mt-4" style="width: 18rem">
+            <img
+              src="<%= blog.coverImageURL %>"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title"><%= blog.title %></h5>
+              <p class="card-text"><%= blog.content.substring(0, 50) %></p>
+              <a href="/blog/<%= blog._id %>" class="btn btn-primary"
+                >Read Blog</a
+              >
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
   </body>
   <%- include('./partials/script.ejs') %>
 </html>

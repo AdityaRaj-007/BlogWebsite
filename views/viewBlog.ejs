@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <title>Blog</title>
+  </head>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container mt-4">
+      <img
+        src="<%= blog.coverImageURL %>"
+        alt="Cover Image"
+        width="700px"
+        class="img-fluid mx-auto d-block rounded"
+      />
+      <h1 class="mx-auto text-center"><%= blog.title %></h1>
+      <div
+        class="container mt-4 d-flex align-items-center"
+        style="text-align: center; justify-content: center"
+      >
+        <img
+          src="<%= blog.createdBy.profileImageURL %>"
+          alt=""
+          width="30px"
+          style="margin-right: 10px"
+        />
+        <h4><%= blog.createdBy.fullName %></h4>
+      </div>
+
+      <pre class="mt-4"><%= blog.content %></pre>
+    </div>
+  </body>
+  <%- include('./partials/script.ejs') %>
+</html>
