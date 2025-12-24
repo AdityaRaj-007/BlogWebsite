@@ -2,7 +2,11 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { addBlog, viewBlog } from "../controllers/blogController.js";
+import {
+  addBlog,
+  viewBlog,
+  addComment,
+} from "../controllers/blogController.js";
 
 export const router = express.Router();
 
@@ -35,3 +39,5 @@ router.get("/add-new", (req, res) => {
 router.post("/", upload.single("coverImage"), addBlog);
 
 router.get("/:id", viewBlog);
+
+router.post("/comment/:blogId", addComment);
