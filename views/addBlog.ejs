@@ -38,4 +38,91 @@
     </div>
   </body>
   <%- include('./partials/script.ejs') %>
+  <script>
+    const editor = document.getElementById("content");
+    console.log(editor);
+
+    editor.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && (e.key === "z" || e.key === "y")) {
+        e.preventDefault();
+      }
+    });
+
+    class CustomUndoRedo {
+      constructor(editor) {
+        this.editor = editor;
+        this.undoQueue = [];
+        this.redoQueue = [];
+      }
+
+      addToQueue(word, pos) {
+        this.undoQueue.push({ word, pos });
+        console.log(this.undoQueue.at(-1));
+        this.redoQueue.length = 0;
+      }
+
+      undo() {
+        const removed = this.undoQueue.pop();
+        if (removed) this.redoQueue.push(removed);
+        if (this.undoQueue.length > 0) {
+          editor.value = this.undoQueue.at(-1).word;
+          editor.selectionStart = editor.seletionEnd =
+            this.undoQueue.at(-1).pos;
+        } else {
+          editor.value = "";
+          editor.selectionStart = editor.selectionEnd = 0;
+        }
+      }
+
+      redo() {
+        if (this.redoQueue.length > 0) {
+          editor.value = this.redoQueue.at(-1).word;
+          editor.selectionStart = editor.seletionEnd =
+            this.redoQueue.at(-1).pos;
+
+          const removed = this.redoQueue.pop();
+          this.undoQueue.push(removed);
+        } else if (this.redoQueue.length == 0 && this.undoQueue.length == 0) {
+          editor.value = "";
+          editor.selectionStart = editor.selectionEnd = 0;
+        }
+      }
+    }
+
+    const undoRedo = new CustomUndoRedo(editor);
+
+    const debounce = (fn, delay) => {
+      let timerId;
+
+      return function (...args) {
+        clearTimeout(timerId);
+
+        timerId = setTimeout(() => {
+          fn.apply(this, args);
+        }, delay);
+      };
+    };
+
+    const printWords = (e) => {
+      console.log(e);
+      console.log(e.target.selectionStart);
+      console.log(e.target.attributes);
+      console.log(e.target.value);
+      console.log(e.target.textLength);
+
+      undoRedo.addToQueue(e.target.value, e.target.selectionStart);
+    };
+    const debouncedWords = debounce(printWords, 500);
+
+    editor.addEventListener("input", debouncedWords);
+
+    editor.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "z") {
+        undoRedo.undo();
+      }
+      if (e.ctrlKey && e.key === "y") {
+        undoRedo.redo();
+      }
+    });
+  </script>
 </html>
